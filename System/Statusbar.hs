@@ -1,5 +1,8 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
+module System.Statusbar
+    (NSMenu, getStatusBarMenu, addMenuItemH, runLoop) where
+
 import Foreign.Ptr
 import Foreign.C.String
 
@@ -18,9 +21,3 @@ addMenuItemH menu item cb = do
     wcb <- mkCallback cb
     withCString item (\citem -> addMenuItem menu citem wcb)
 
-main = do
-    putStrLn "This is Haskell"
-    menu <- getStatusBarMenu
-    addMenuItemH menu "Blabla" (putStrLn "lalal")
-    addMenuItemH menu "Quit" exitSuccess
-    runLoop
