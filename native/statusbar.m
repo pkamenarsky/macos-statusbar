@@ -23,7 +23,7 @@ NSMenu *getStatusBarMenu() {
     return menu;
 }
 
-NSMenuItem *addMenuItem(NSMenu *menu, char *title, void (*f)(void)) {
+NSMenuItem *addItem(NSMenu *menu, char *title, void (*f)(void)) {
     id sel = [^{f();} copy];
     
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[NSString alloc] initWithUTF8String:title] action:@selector(invoke) keyEquivalent:@""];
@@ -36,6 +36,14 @@ NSMenuItem *addMenuItem(NSMenu *menu, char *title, void (*f)(void)) {
     [sel autorelease];
 
 	return menuItem;
+}
+
+void removeItem(NSMenu *menu, NSMenuItem *item) {
+	[menu removeItem:item];
+}
+
+void removeItemAtIndex(NSMenu *menu, int index) {
+	[menu removeItemAtIndex:index];
 }
 
 NSMenuItem *addSeparator(NSMenu *menu) {
