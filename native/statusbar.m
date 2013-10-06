@@ -1,11 +1,3 @@
-//
-//  menu.m
-//  menu
-//
-//  Created by phil on 10/2/13.
-//  Copyright (c) 2013 h/s. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
