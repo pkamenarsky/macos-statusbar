@@ -17,12 +17,13 @@ NSMenu *getStatusBarMenu() {
     [item setHighlightMode:YES];
     
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@"Menu"];    
+	[menu setAutoenablesItems:NO];
     [item setMenu:menu];
     
     return menu;
 }
 
-void addMenuItem(NSMenu *menu, char *title, void (*f)(void)) {
+NSMenuItem *addMenuItem(NSMenu *menu, char *title, void (*f)(void)) {
     id sel = [^{f();} copy];
     
     NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[NSString alloc] initWithUTF8String:title] action:@selector(invoke) keyEquivalent:@""];
@@ -33,6 +34,19 @@ void addMenuItem(NSMenu *menu, char *title, void (*f)(void)) {
     [menu addItem:menuItem];
     
     [sel autorelease];
+
+	return menuItem;
+}
+
+NSMenuItem *addSeparator(NSMenu *menu) {
+    NSMenuItem *menuItem = [NSMenuItem separatorItem];
+    [menu addItem:menuItem];
+
+	return menuItem;
+}
+
+void setEnabled(NSMenuItem *item, bool enabled) {
+	[item setEnabled:enabled];
 }
 
 // enable, disable items, icon for status bar
