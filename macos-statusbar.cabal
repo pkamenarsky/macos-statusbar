@@ -18,5 +18,5 @@ library
   exposed-modules:     System.Statusbar
   -- other-modules:       
   build-depends:       base ==4.6.*
-  c-sources:           menu.m
-  frameworks:          Cocoa, Foundation, AppKit
+  c-sources:           native/statusbar.m
+  frameworks:          Cocoa
