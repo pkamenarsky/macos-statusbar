@@ -43,8 +43,11 @@ NSMenu *getStatusBarMenu() {
     return menu;
 }
 
-NSImage *getImageWithContentsOfFile(char *file) {
-	return [[NSImage alloc] initWithContentsOfFile:[[NSString alloc] initWithUTF8String:file]];
+NSImage *getImageWithContentsOfFile(char *file, bool template) {
+	NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[NSString alloc] initWithUTF8String:file]];
+	[image setTemplate:template];
+
+	return image;
 }
 
 void setMenuTitle(NSMenu *menu, char *title) {

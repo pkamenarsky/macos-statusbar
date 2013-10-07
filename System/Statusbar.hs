@@ -18,11 +18,11 @@ data NSImage = NSImage
 
 foreign import ccall "wrapper" mkCallback :: IO () -> IO (FunPtr (IO ())) 
 
-foreign import ccall "getStatusItem" getStatusItem :: IO (Ptr NSStatusItem)
+foreign import ccall "getStatusItem" getStatusItem :: Ptr NSMenu -> IO (Ptr NSStatusItem)
 foreign import ccall "setStatusItemTitle" setStatusItemTitleC:: Ptr NSStatusItem -> CString -> IO ()
 foreign import ccall "setStatusItemImage" setStatusItemImage:: Ptr NSStatusItem -> Ptr NSImage -> IO ()
 
-foreign import ccall "getImageWithContentsOfFile" getImageWithContentsOfFileC:: CString -> IO (Ptr NSImage)
+foreign import ccall "getImageWithContentsOfFile" getImageWithContentsOfFileC:: CString -> Bool -> IO (Ptr NSImage)
 
 foreign import ccall "createMenu" createMenuC:: CString -> IO (Ptr NSMenu)
 foreign import ccall "setMenuTitle" setMenuTitleC:: Ptr NSMenu -> CString -> IO ()
@@ -41,8 +41,8 @@ addItem menu item cb = do
     wcb <- mkCallback cb
     withCString item (\citem -> addItemC menu citem wcb)
 
-getImageWithContentsOfFile :: String -> IO (Ptr NSImage)
-getImageWithContentsOfFile file = withCString file getImageWithContentsOfFileC
+getImageWithContentsOfFile :: String -> Bool -> IO (Ptr NSImage)
+getImageWithContentsOfFile file template = withCString file (flip getImageWithContentsOfFileC template)
 
 setStatusItemTitle :: Ptr NSStatusItem -> String -> IO ()
 setStatusItemTitle item title = withCString title (setStatusItemTitleC item)
