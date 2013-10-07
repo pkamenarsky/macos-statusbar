@@ -1,6 +1,29 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
+NSStatusItem *getStatusItem(NSMenu *menu) {
+    [NSAutoreleasePool new];
+    [NSApplication sharedApplication];
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+
+    NSStatusBar *bar = [NSStatusBar systemStatusBar];
+    NSStatusItem *item = [bar statusItemWithLength:NSVariableStatusItemLength];
+    [item retain];
+    [item setEnabled:YES];
+    [item setHighlightMode:YES];
+
+	[item setMenu:menu];
+
+	return item;
+}
+
+NSMenu *createMenu(char *title) {
+    NSMenu *menu = [[NSMenu alloc] initWithTitle:[[NSString alloc] initWithUTF8String:title]];
+	[menu setAutoenablesItems:NO];
+
+	return menu;
+}
+
 NSMenu *getStatusBarMenu() {
     [NSAutoreleasePool new];
     [NSApplication sharedApplication];
@@ -10,9 +33,6 @@ NSMenu *getStatusBarMenu() {
     
     NSStatusItem *item = [bar statusItemWithLength:NSVariableStatusItemLength];
     [item retain];
-    [item setTitle: NSLocalizedString(@"Tablet", @"")];
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
-    // [item setImage:icon];
     [item setEnabled:YES];
     [item setHighlightMode:YES];
     
@@ -21,6 +41,22 @@ NSMenu *getStatusBarMenu() {
     [item setMenu:menu];
     
     return menu;
+}
+
+NSImage *getImageWithContentsOfFile(char *file) {
+	return [[NSImage alloc] initWithContentsOfFile:[[NSString alloc] initWithUTF8String:file]];
+}
+
+void setMenuTitle(NSMenu *menu, char *title) {
+    [menu setTitle:[[NSString alloc] initWithUTF8String:title]];
+}
+
+void setStatusItemTitle(NSStatusItem *item, char *title) {
+    [item setTitle:[[NSString alloc] initWithUTF8String:title]];
+}
+
+void setStatusItemImage(NSStatusItem *item, NSImage *image) {
+    [item setImage:image];
 }
 
 NSMenuItem *addItem(NSMenu *menu, char *title, void (*f)(void)) {
@@ -56,8 +92,6 @@ NSMenuItem *addSeparator(NSMenu *menu) {
 void setEnabled(NSMenuItem *item, bool enabled) {
 	[item setEnabled:enabled];
 }
-
-// enable, disable items, icon for status bar
 
 void runLoop() {
     [NSApp activateIgnoringOtherApps:YES];
